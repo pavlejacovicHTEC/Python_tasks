@@ -2,9 +2,10 @@ import os
 import sys
 import subprocess
 
-sys.exit("Please provide command line arguments (1.directory location 2.ignore file location)") if len(sys.argv) < 3 else print(f"All arguments are provided")
-master_directory_location = sys.argv[1] if os.path.exists(sys.argv[1]) and os.path.isdir(sys.argv[1]) and (sys.argv[1])[-1]==os.sep else sys.exit("Please provide valid directory location! Directory location has to end with file separator")
-ignore_file = sys.argv[2] if os.path.exists(sys.argv[2]) and os.path.isfile(sys.argv[2]) else sys.exit("Please provide valid ignore file!")
+#conditions for command line arguments, regarding if they exist
+sys.exit("Please provide command line arguments (1.directory location 2.ignore file location)") if len(sys.argv) < 3 else print("All arguments are provided")
+master_directory_location = sys.argv[1] if os.path.isdir(sys.argv[1]) and (sys.argv[1])[-1]==os.sep else sys.exit("Please provide valid directory! ")
+ignore_file = sys.argv[2] if os.path.isfile(sys.argv[2]) else sys.exit("Please provide valid ignore file!")
 script_path = os.getcwd()
 
 def get_wanted_git_folders(main_directory, exclude_file):

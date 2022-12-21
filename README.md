@@ -20,3 +20,14 @@ that is not very easy to look at.The goal is to present data in an
 organized way through a markdown format
 ```
 
+### Task 4
+```commandline
+Write script that does anything, but use argparse, and store output of
+the subprocess command in a variable
+```
+
+### Task 4
+```commandline
+Playing around with multithreading
+```
+

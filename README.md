@@ -26,8 +26,8 @@ Write script that does anything, but use argparse, and store output of
 the subprocess command in a variable
 ```
 
-### Task 4
+### Task 5
 ```commandline
-Playing around with multithreading
+Playing around with threads and statistics
 ```
 

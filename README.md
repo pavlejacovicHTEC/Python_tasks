@@ -16,7 +16,7 @@ Same as task 1 with a little more added.
 ### Task 3
 ```commandline
 Task was to use different techniques in order to manipulate text in txt file (example_input_file.txt)
-that is not very easy to look at.The goal is to present data in and 
+that is not very easy to look at.The goal is to present data in an 
 organized way through a markdown format
 ```
 

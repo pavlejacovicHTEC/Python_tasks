@@ -30,3 +30,6 @@ for element in get_wanted_git_folders(master_directory_location,ignore_file):
     subprocess.call(["git","pull"])
 
 os.chdir(script_path)
+
+
+#test1

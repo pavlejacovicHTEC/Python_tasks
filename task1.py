@@ -32,4 +32,4 @@ for element in get_wanted_git_folders(master_directory_location,ignore_file):
 os.chdir(script_path)
 
 
-#test1
+#test12

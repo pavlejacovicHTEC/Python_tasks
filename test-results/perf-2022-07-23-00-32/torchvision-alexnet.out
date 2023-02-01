@@ -1,0 +1,141 @@
+Compiling ... 
+Reading: /saved-models/torchvision/alexneti64.onnx
+module: "main"
+main:@0 = check_context::migraphx::version_1::gpu::context -> float_type, {}, {}
+main:@1 = hip::hip_allocate_memory[shape=float_type, {24780800}, {1},id=main:scratch] -> float_type, {24780800}, {1}
+main:@2 = hip::hip_copy_literal[id=main:@literal:14] -> float_type, {64, 3, 11, 11}, {363, 121, 11, 1}
+main:@3 = load[offset=0,end=49561600](main:@1) -> float_type, {64, 64, 55, 55}, {193600, 3025, 55, 1}
+main:@4 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}
+input.1 = @param:input.1 -> float_type, {64, 3, 224, 224}, {150528, 50176, 224, 1}
+main:@6 = gpu::convolution[padding={2, 2, 2, 2},stride={4, 4},dilation={1, 1},group=1,padding_mode=0,solution_id=81](input.1,main:@2,main:@4,main:@3) -> float_type, {64, 64, 55, 55}, {193600, 3025, 55, 1}
+main:@7 = hip::hip_copy_literal[id=main:@literal:15] -> float_type, {64}, {1}
+main:@8 = load[offset=49561600,end=99123200](main:@1) -> float_type, {64, 64, 55, 55}, {193600, 3025, 55, 1}
+main:@9 = broadcast[axis=1,out_lens={64, 64, 55, 55}](main:@7) -> float_type, {64, 64, 55, 55}, {0, 1, 0, 0}
+main:@10 = gpu::code_object[code_object=13632,symbol_name=add_relu_kernel,global=307200,local=1024,](main:@6,main:@9,main:@8) -> float_type, {64, 64, 55, 55}, {193600, 3025, 55, 1}
+main:@11 = load[offset=0,end=11943936](main:@1) -> float_type, {64, 64, 27, 27}, {46656, 729, 27, 1}
+main:@12 = gpu::pooling[mode=max,padding={0, 0, 0, 0},stride={2, 2},lengths={3, 3},ceil_mode=0,lp_order=2](main:@10,main:@11) -> float_type, {64, 64, 27, 27}, {46656, 729, 27, 1}
+main:@13 = hip::hip_copy_literal[id=main:@literal:10] -> float_type, {192, 64, 5, 5}, {1600, 25, 5, 1}
+main:@14 = hip::hip_copy_literal[id=main:@literal:11] -> float_type, {192}, {1}
+main:@15 = load[offset=11943936,end=47775744](main:@1) -> float_type, {64, 192, 27, 27}, {139968, 729, 27, 1}
+main:@16 = broadcast[axis=1,out_lens={64, 192, 27, 27}](main:@14) -> float_type, {64, 192, 27, 27}, {0, 1, 0, 0}
+main:@17 = gpu::miopen_fusion[ops={{op=convolution[padding={2, 2, 2, 2},stride={1, 1},dilation={1, 1},group=1,padding_mode=0],alpha=1,beta=0}, {op=add,alpha=1,beta=0}, {op=relu,alpha=1,beta=0}}](main:@12,main:@13,main:@16,main:@15) -> float_type, {64, 192, 27, 27}, {139968, 729, 27, 1}
+main:@18 = load[offset=0,end=8306688](main:@1) -> float_type, {64, 192, 13, 13}, {32448, 169, 13, 1}
+main:@19 = gpu::pooling[mode=max,padding={0, 0, 0, 0},stride={2, 2},lengths={3, 3},ceil_mode=0,lp_order=2](main:@17,main:@18) -> float_type, {64, 192, 13, 13}, {32448, 169, 13, 1}
+main:@20 = hip::hip_copy_literal[id=main:@literal:1] -> float_type, {64, 1000}, {1000, 1}
+main:@21 = hip::hip_copy_literal[id=main:@literal:2] -> float_type, {64, 4096}, {4096, 1}
+main:@22 = hip::hip_copy_literal[id=main:@literal:5] -> float_type, {4096, 1000}, {1000, 1}
+main:@23 = hip::hip_copy_literal[id=main:@literal:0] -> float_type, {9216, 4096}, {4096, 1}
+main:@24 = hip::hip_copy_literal[id=main:@literal:3] -> float_type, {4096, 4096}, {4096, 1}
+main:@25 = hip::hip_copy_literal[id=main:@literal:4] -> float_type, {64, 4096}, {4096, 1}
+main:@26 = hip::hip_copy_literal[id=main:@literal:6] -> float_type, {256, 384, 3, 3}, {3456, 9, 3, 1}
+main:@27 = hip::hip_copy_literal[id=main:@literal:7] -> float_type, {256}, {1}
+main:@28 = hip::hip_copy_literal[id=main:@literal:8] -> float_type, {384, 192, 3, 3}, {1728, 9, 3, 1}
+main:@29 = hip::hip_copy_literal[id=main:@literal:9] -> float_type, {384}, {1}
+main:@30 = hip::hip_copy_literal[id=main:@literal:12] -> float_type, {256, 256, 3, 3}, {2304, 9, 3, 1}
+main:@31 = hip::hip_copy_literal[id=main:@literal:13] -> float_type, {256}, {1}
+main:@32 = load[offset=8306688,end=24920064](main:@1) -> float_type, {64, 384, 13, 13}, {64896, 169, 13, 1}
+main:@33 = broadcast[axis=1,out_lens={64, 384, 13, 13}](main:@29) -> float_type, {64, 384, 13, 13}, {0, 1, 0, 0}
+main:@34 = gpu::miopen_fusion[ops={{op=convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=0],alpha=1,beta=0}, {op=add,alpha=1,beta=0}, {op=relu,alpha=1,beta=0}}](main:@19,main:@28,main:@33,main:@32) -> float_type, {64, 384, 13, 13}, {64896, 169, 13, 1}
+main:@35 = load[offset=24920064,end=35995648](main:@1) -> float_type, {64, 256, 13, 13}, {43264, 169, 13, 1}
+main:@36 = broadcast[axis=1,out_lens={64, 256, 13, 13}](main:@27) -> float_type, {64, 256, 13, 13}, {0, 1, 0, 0}
+main:@37 = gpu::miopen_fusion[ops={{op=convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=0],alpha=1,beta=0}, {op=add,alpha=1,beta=0}, {op=relu,alpha=1,beta=0}}](main:@34,main:@26,main:@36,main:@35) -> float_type, {64, 256, 13, 13}, {43264, 169, 13, 1}
+main:@38 = load[offset=0,end=11075584](main:@1) -> float_type, {64, 256, 13, 13}, {43264, 169, 13, 1}
+main:@39 = broadcast[axis=1,out_lens={64, 256, 13, 13}](main:@31) -> float_type, {64, 256, 13, 13}, {0, 1, 0, 0}
+main:@40 = gpu::miopen_fusion[ops={{op=convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=0],alpha=1,beta=0}, {op=add,alpha=1,beta=0}, {op=relu,alpha=1,beta=0}}](main:@37,main:@30,main:@39,main:@38) -> float_type, {64, 256, 13, 13}, {43264, 169, 13, 1}
+main:@41 = load[offset=11075584,end=13434880](main:@1) -> float_type, {64, 256, 6, 6}, {9216, 36, 6, 1}
+main:@42 = gpu::pooling[mode=max,padding={0, 0, 0, 0},stride={2, 2},lengths={3, 3},ceil_mode=0,lp_order=2](main:@40,main:@41) -> float_type, {64, 256, 6, 6}, {9216, 36, 6, 1}
+main:@43 = load[offset=0,end=2359296](main:@1) -> float_type, {64, 256, 6, 6}, {9216, 36, 6, 1}
+main:@44 = gpu::pooling[mode=average,padding={0, 0, 0, 0},stride={1, 1},lengths={1, 1},ceil_mode=0,lp_order=2](main:@42,main:@43) -> float_type, {64, 256, 6, 6}, {9216, 36, 6, 1}
+main:@45 = load[offset=2359296,end=3407872](main:@1) -> float_type, {64, 4096}, {4096, 1}
+main:@46 = flatten[axis=1](main:@44) -> float_type, {64, 9216}, {9216, 1}
+main:@47 = gpu::gemm[alpha=1,beta=0,int8_x4_format=0](main:@46,main:@23,main:@45) -> float_type, {64, 4096}, {4096, 1}
+main:@48 = load[offset=0,end=1048576](main:@1) -> float_type, {64, 4096}, {4096, 1}
+main:@49 = gpu::code_object[code_object=13632,symbol_name=add_relu_kernel,global=65536,local=1024,](main:@47,main:@21,main:@48) -> float_type, {64, 4096}, {4096, 1}
+main:@50 = load[offset=1048576,end=2097152](main:@1) -> float_type, {64, 4096}, {4096, 1}
+main:@51 = gpu::gemm[alpha=1,beta=0,int8_x4_format=0](main:@49,main:@24,main:@50) -> float_type, {64, 4096}, {4096, 1}
+main:@52 = load[offset=0,end=1048576](main:@1) -> float_type, {64, 4096}, {4096, 1}
+main:@53 = gpu::code_object[code_object=13632,symbol_name=add_relu_kernel,global=65536,local=1024,](main:@51,main:@25,main:@52) -> float_type, {64, 4096}, {4096, 1}
+main:#output_0 = @param:main:#output_0 -> float_type, {64, 1000}, {1000, 1}
+main:@55 = gpu::gemm[alpha=1,beta=1,int8_x4_format=0](main:@53,main:@22,main:@20,main:#output_0) -> float_type, {64, 1000}, {1000, 1}
+main:@56 = @return(main:@55)
+
+
+Allocating params ... 
+Running performance report ... 
+main:@0 = check_context::migraphx::version_1::gpu::context -> float_type, {}, {}: 0.0005316ms, 1%
+main:@1 = hip::hip_allocate_memory[shape=float_type, {24780800}, {1},id=main:scratch] -> float_type, {24780800}, {1}: 0.00053132ms, 1%
+main:@2 = hip::hip_copy_literal[id=main:@literal:14] -> float_type, {64, 3, 11, 11}, {363, 121, 11, 1}: 0.00060182ms, 1%
+main:@3 = load[offset=0,end=49561600](main:@1) -> float_type, {64, 64, 55, 55}, {193600, 3025, 55, 1}: 0.0004059ms, 1%
+main:@4 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}: 0.00033834ms, 1%
+input.1 = @param:input.1 -> float_type, {64, 3, 224, 224}, {150528, 50176, 224, 1}: 0.0004172ms, 1%
+main:@6 = gpu::convolution[padding={2, 2, 2, 2},stride={4, 4},dilation={1, 1},group=1,padding_mode=0,solution_id=81](input.1,main:@2,main:@4,main:@3) -> float_type, {64, 64, 55, 55}, {193600, 3025, 55, 1}: 0.489019ms, 4%
+main:@7 = hip::hip_copy_literal[id=main:@literal:15] -> float_type, {64}, {1}: 0.00053854ms, 1%
+main:@8 = load[offset=49561600,end=99123200](main:@1) -> float_type, {64, 64, 55, 55}, {193600, 3025, 55, 1}: 0.00036688ms, 1%
+main:@9 = broadcast[axis=1,out_lens={64, 64, 55, 55}](main:@7) -> float_type, {64, 64, 55, 55}, {0, 1, 0, 0}: 0.00056074ms, 1%
+main:@10 = gpu::code_object[code_object=13632,symbol_name=add_relu_kernel,global=307200,local=1024,](main:@6,main:@9,main:@8) -> float_type, {64, 64, 55, 55}, {193600, 3025, 55, 1}: 0.122665ms, 1%
+main:@11 = load[offset=0,end=11943936](main:@1) -> float_type, {64, 64, 27, 27}, {46656, 729, 27, 1}: 0.00035918ms, 1%
+main:@12 = gpu::pooling[mode=max,padding={0, 0, 0, 0},stride={2, 2},lengths={3, 3},ceil_mode=0,lp_order=2](main:@10,main:@11) -> float_type, {64, 64, 27, 27}, {46656, 729, 27, 1}: 0.106587ms, 1%
+main:@13 = hip::hip_copy_literal[id=main:@literal:10] -> float_type, {192, 64, 5, 5}, {1600, 25, 5, 1}: 0.00049496ms, 1%
+main:@14 = hip::hip_copy_literal[id=main:@literal:11] -> float_type, {192}, {1}: 0.00038812ms, 1%
+main:@15 = load[offset=11943936,end=47775744](main:@1) -> float_type, {64, 192, 27, 27}, {139968, 729, 27, 1}: 0.00037736ms, 1%
+main:@16 = broadcast[axis=1,out_lens={64, 192, 27, 27}](main:@14) -> float_type, {64, 192, 27, 27}, {0, 1, 0, 0}: 0.00049114ms, 1%
+main:@17 = gpu::miopen_fusion[ops={{op=convolution[padding={2, 2, 2, 2},stride={1, 1},dilation={1, 1},group=1,padding_mode=0],alpha=1,beta=0}, {op=add,alpha=1,beta=0}, {op=relu,alpha=1,beta=0}}](main:@12,main:@13,main:@16,main:@15) -> float_type, {64, 192, 27, 27}, {139968, 729, 27, 1}: 9.5952ms, 74%
+main:@18 = load[offset=0,end=8306688](main:@1) -> float_type, {64, 192, 13, 13}, {32448, 169, 13, 1}: 0.0004344ms, 1%
+main:@19 = gpu::pooling[mode=max,padding={0, 0, 0, 0},stride={2, 2},lengths={3, 3},ceil_mode=0,lp_order=2](main:@17,main:@18) -> float_type, {64, 192, 13, 13}, {32448, 169, 13, 1}: 0.0805987ms, 1%
+main:@20 = hip::hip_copy_literal[id=main:@literal:1] -> float_type, {64, 1000}, {1000, 1}: 0.00052102ms, 1%
+main:@21 = hip::hip_copy_literal[id=main:@literal:2] -> float_type, {64, 4096}, {4096, 1}: 0.00037264ms, 1%
+main:@22 = hip::hip_copy_literal[id=main:@literal:5] -> float_type, {4096, 1000}, {1000, 1}: 0.00035454ms, 1%
+main:@23 = hip::hip_copy_literal[id=main:@literal:0] -> float_type, {9216, 4096}, {4096, 1}: 0.00037686ms, 1%
+main:@24 = hip::hip_copy_literal[id=main:@literal:3] -> float_type, {4096, 4096}, {4096, 1}: 0.0004788ms, 1%
+main:@25 = hip::hip_copy_literal[id=main:@literal:4] -> float_type, {64, 4096}, {4096, 1}: 0.0003552ms, 1%
+main:@26 = hip::hip_copy_literal[id=main:@literal:6] -> float_type, {256, 384, 3, 3}, {3456, 9, 3, 1}: 0.00035006ms, 1%
+main:@27 = hip::hip_copy_literal[id=main:@literal:7] -> float_type, {256}, {1}: 0.00035878ms, 1%
+main:@28 = hip::hip_copy_literal[id=main:@literal:8] -> float_type, {384, 192, 3, 3}, {1728, 9, 3, 1}: 0.00035396ms, 1%
+main:@29 = hip::hip_copy_literal[id=main:@literal:9] -> float_type, {384}, {1}: 0.00048044ms, 1%
+main:@30 = hip::hip_copy_literal[id=main:@literal:12] -> float_type, {256, 256, 3, 3}, {2304, 9, 3, 1}: 0.00034136ms, 1%
+main:@31 = hip::hip_copy_literal[id=main:@literal:13] -> float_type, {256}, {1}: 0.00034144ms, 1%
+main:@32 = load[offset=8306688,end=24920064](main:@1) -> float_type, {64, 384, 13, 13}, {64896, 169, 13, 1}: 0.00038348ms, 1%
+main:@33 = broadcast[axis=1,out_lens={64, 384, 13, 13}](main:@29) -> float_type, {64, 384, 13, 13}, {0, 1, 0, 0}: 0.00050274ms, 1%
+main:@34 = gpu::miopen_fusion[ops={{op=convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=0],alpha=1,beta=0}, {op=add,alpha=1,beta=0}, {op=relu,alpha=1,beta=0}}](main:@19,main:@28,main:@33,main:@32) -> float_type, {64, 384, 13, 13}, {64896, 169, 13, 1}: 0.569491ms, 5%
+main:@35 = load[offset=24920064,end=35995648](main:@1) -> float_type, {64, 256, 13, 13}, {43264, 169, 13, 1}: 0.00038766ms, 1%
+main:@36 = broadcast[axis=1,out_lens={64, 256, 13, 13}](main:@27) -> float_type, {64, 256, 13, 13}, {0, 1, 0, 0}: 0.00046672ms, 1%
+main:@37 = gpu::miopen_fusion[ops={{op=convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=0],alpha=1,beta=0}, {op=add,alpha=1,beta=0}, {op=relu,alpha=1,beta=0}}](main:@34,main:@26,main:@36,main:@35) -> float_type, {64, 256, 13, 13}, {43264, 169, 13, 1}: 0.737826ms, 6%
+main:@38 = load[offset=0,end=11075584](main:@1) -> float_type, {64, 256, 13, 13}, {43264, 169, 13, 1}: 0.0003821ms, 1%
+main:@39 = broadcast[axis=1,out_lens={64, 256, 13, 13}](main:@31) -> float_type, {64, 256, 13, 13}, {0, 1, 0, 0}: 0.00046698ms, 1%
+main:@40 = gpu::miopen_fusion[ops={{op=convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=0],alpha=1,beta=0}, {op=add,alpha=1,beta=0}, {op=relu,alpha=1,beta=0}}](main:@37,main:@30,main:@39,main:@38) -> float_type, {64, 256, 13, 13}, {43264, 169, 13, 1}: 0.471856ms, 4%
+main:@41 = load[offset=11075584,end=13434880](main:@1) -> float_type, {64, 256, 6, 6}, {9216, 36, 6, 1}: 0.0003727ms, 1%
+main:@42 = gpu::pooling[mode=max,padding={0, 0, 0, 0},stride={2, 2},lengths={3, 3},ceil_mode=0,lp_order=2](main:@40,main:@41) -> float_type, {64, 256, 6, 6}, {9216, 36, 6, 1}: 0.0440366ms, 1%
+main:@43 = load[offset=0,end=2359296](main:@1) -> float_type, {64, 256, 6, 6}, {9216, 36, 6, 1}: 0.0003873ms, 1%
+main:@44 = gpu::pooling[mode=average,padding={0, 0, 0, 0},stride={1, 1},lengths={1, 1},ceil_mode=0,lp_order=2](main:@42,main:@43) -> float_type, {64, 256, 6, 6}, {9216, 36, 6, 1}: 0.0414915ms, 1%
+main:@45 = load[offset=2359296,end=3407872](main:@1) -> float_type, {64, 4096}, {4096, 1}: 0.00040882ms, 1%
+main:@46 = flatten[axis=1](main:@44) -> float_type, {64, 9216}, {9216, 1}: 0.0005439ms, 1%
+main:@47 = gpu::gemm[alpha=1,beta=0,int8_x4_format=0](main:@46,main:@23,main:@45) -> float_type, {64, 4096}, {4096, 1}: 0.540593ms, 5%
+main:@48 = load[offset=0,end=1048576](main:@1) -> float_type, {64, 4096}, {4096, 1}: 0.00043872ms, 1%
+main:@49 = gpu::code_object[code_object=13632,symbol_name=add_relu_kernel,global=65536,local=1024,](main:@47,main:@21,main:@48) -> float_type, {64, 4096}, {4096, 1}: 0.0182454ms, 1%
+main:@50 = load[offset=1048576,end=2097152](main:@1) -> float_type, {64, 4096}, {4096, 1}: 0.00036106ms, 1%
+main:@51 = gpu::gemm[alpha=1,beta=0,int8_x4_format=0](main:@49,main:@24,main:@50) -> float_type, {64, 4096}, {4096, 1}: 0.132171ms, 2%
+main:@52 = load[offset=0,end=1048576](main:@1) -> float_type, {64, 4096}, {4096, 1}: 0.00041482ms, 1%
+main:@53 = gpu::code_object[code_object=13632,symbol_name=add_relu_kernel,global=65536,local=1024,](main:@51,main:@25,main:@52) -> float_type, {64, 4096}, {4096, 1}: 0.0179254ms, 1%
+main:#output_0 = @param:main:#output_0 -> float_type, {64, 1000}, {1000, 1}: 0.00056414ms, 1%
+main:@55 = gpu::gemm[alpha=1,beta=1,int8_x4_format=0](main:@53,main:@22,main:@20,main:#output_0) -> float_type, {64, 1000}, {1000, 1}: 0.086271ms, 1%
+main:@56 = @return(main:@55)
+Summary:
+gpu::miopen_fusion: 11.3744ms / 4 = 2.84359ms, 88%
+gpu::gemm: 0.759035ms / 3 = 0.253012ms, 6%
+gpu::convolution: 0.489019ms / 1 = 0.489019ms, 4%
+gpu::pooling: 0.272714ms / 4 = 0.0681784ms, 3%
+gpu::code_object::add_relu_kernel: 0.158836ms / 3 = 0.0529452ms, 2%
+hip::hip_copy_literal: 0.00670854ms / 16 = 0.000419284ms, 1%
+load: 0.00581872ms / 15 = 0.000387915ms, 1%
+broadcast: 0.00248832ms / 5 = 0.000497664ms, 1%
+@param: 0.00098134ms / 2 = 0.00049067ms, 1%
+flatten: 0.0005439ms / 1 = 0.0005439ms, 1%
+check_context::migraphx::version_1::gpu::context: 0.0005316ms / 1 = 0.0005316ms, 1%
+hip::hip_allocate_memory: 0.00053132ms / 1 = 0.00053132ms, 1%
+
+Batch size: 1
+Rate: 77.7813/sec
+Total time: 12.8566ms
+Total instructions time: 13.0716ms
+Overhead time: 0.0117232ms, -0.215019ms
+Overhead: 0%, -2%

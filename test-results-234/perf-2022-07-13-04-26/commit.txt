@@ -1,0 +1,5 @@
+commit ba1b7850237ef8332a43b66430087aa93f26f216
+Author: Paul Fultz II <pfultz2@yahoo.com>
+Date:   Tue Jul 12 17:27:46 2022 -0500
+
+    Reduce header inclusion in op headers (#1271)

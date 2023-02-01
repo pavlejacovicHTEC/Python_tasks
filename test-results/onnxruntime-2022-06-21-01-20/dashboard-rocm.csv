@@ -1,0 +1,6 @@
+model_name,inputs,custom_layer_num,engine,version,providers,device,precision,optimizer,io_binding,threads,b1_s32,b1_s384,b32_s32,b32_s384
+bert-base-cased,1,,onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,16,41.04,43.66,45.46,106.95
+model_name,inputs,custom_layer_num,engine,version,providers,device,precision,optimizer,io_binding,threads,b1_s32,b1_s384,b16_s32,b16_s384
+bert-large-uncased,1,,onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,16,57.93,62.27,61.65,136.89
+model_name,inputs,custom_layer_num,engine,version,providers,device,precision,optimizer,io_binding,threads,b1_s32,b1_s384,b8_s32,b8_s384
+distilgpt2,1,,onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,16,2.11,3.93,2.87,12.92

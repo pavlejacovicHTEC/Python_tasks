@@ -1,0 +1,5 @@
+commit f55d7c2421033b127eac43d4f63dad46a57c9f3d
+Author: Chris Austen <causten@users.noreply.github.com>
+Date:   Fri May 6 13:12:28 2022 -0400
+
+    upgrade docker images to ROCm 5.0.2 (#1133)

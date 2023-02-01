@@ -1,0 +1,5 @@
+commit c722117d89a851915d46edb828d2ff0654849a04
+Author: Umang Yadav <29876643+umangyadav@users.noreply.github.com>
+Date:   Fri Jul 22 10:01:51 2022 -0400
+
+    Improve error reporting in the API (#1274)

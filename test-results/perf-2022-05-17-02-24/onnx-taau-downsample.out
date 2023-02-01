@@ -1,0 +1,313 @@
+Compiling ... 
+Reading: /data/source/saved-models/onnx-misc/taau_low_res_downsample_d2s_for_infer_time_fp16_opset11.onnx
+module: "main"
+main:@0 = check_context::migraphx::version_1::gpu::context -> float_type, {}, {}
+main:@1 = hip::hip_allocate_memory[shape=float_type, {49766400}, {1},id=main:scratch] -> float_type, {49766400}, {1}
+main:@2 = load[offset=0,end=33177600](main:@1) -> half_type, {1, 8, 1920, 1080}, {16588800, 2073600, 1080, 1}
+inputs = @param:inputs -> half_type, {1, 1920, 1080, 8}, {16588800, 8640, 8, 1}
+main:@4 = transpose[permutation={0, 3, 1, 2}](inputs) -> half_type, {1, 8, 1920, 1080}, {16588800, 1, 8640, 8}
+main:@5 = gpu::contiguous(main:@4,main:@2) -> half_type, {1, 8, 1920, 1080}, {16588800, 2073600, 1080, 1}
+main:@6 = hip::hip_copy_literal[id=main:@literal:21] -> half_type, {16, 8, 3, 3}, {72, 9, 3, 1}
+main:@7 = load[offset=33177600,end=99532800](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@8 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}
+main:@9 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=64](main:@5,main:@6,main:@8,main:@7) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@10 = hip::hip_copy_literal[id=main:@literal:20] -> half_type, {16}, {1}
+main:@11 = load[offset=99532800,end=165888000](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@12 = broadcast[axis=1,out_lens={1, 16, 1920, 1080}](main:@10) -> half_type, {1, 16, 1920, 1080}, {0, 1, 0, 0}
+main:@13 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@9,main:@12,main:@11) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@14 = load[offset=0,end=66355200](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@15 = gpu::leaky_relu[alpha=0.3](main:@13,main:@14) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@16 = load[offset=82944000,end=99532800](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@17 = gpu::pooling[mode=max,padding={0, 0, 0, 0},stride={2, 2},lengths={2, 2},ceil_mode=1,lp_order=2](main:@15,main:@16) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@18 = hip::hip_copy_literal[id=main:@literal:19] -> half_type, {16, 16, 3, 3}, {144, 9, 3, 1}
+main:@19 = load[offset=66355200,end=82944000](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@20 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}
+main:@21 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=80](main:@17,main:@18,main:@20,main:@19) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@22 = hip::hip_copy_literal[id=main:@literal:18] -> half_type, {16}, {1}
+main:@23 = load[offset=82944000,end=99532800](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@24 = broadcast[axis=1,out_lens={1, 16, 960, 540}](main:@22) -> half_type, {1, 16, 960, 540}, {0, 1, 0, 0}
+main:@25 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@21,main:@24,main:@23) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@26 = load[offset=66355200,end=82944000](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@27 = gpu::leaky_relu[alpha=0.3](main:@25,main:@26) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@28 = load[offset=87091200,end=91238400](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@29 = gpu::pooling[mode=max,padding={0, 0, 0, 0},stride={2, 2},lengths={2, 2},ceil_mode=1,lp_order=2](main:@27,main:@28) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@30 = hip::hip_copy_literal[id=main:@literal:17] -> half_type, {16, 16, 3, 3}, {144, 9, 3, 1}
+main:@31 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}
+main:@32 = load[offset=82944000,end=87091200](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@33 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=80](main:@29,main:@30,main:@31,main:@32) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@34 = hip::hip_copy_literal[id=main:@literal:16] -> half_type, {16}, {1}
+main:@35 = load[offset=87091200,end=91238400](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@36 = broadcast[axis=1,out_lens={1, 16, 480, 270}](main:@34) -> half_type, {1, 16, 480, 270}, {0, 1, 0, 0}
+main:@37 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@33,main:@36,main:@35) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@38 = load[offset=82944000,end=87091200](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@39 = gpu::leaky_relu[alpha=0.3](main:@37,main:@38) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@40 = load[offset=88128000,end=89164800](main:@1) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}
+main:@41 = gpu::pooling[mode=max,padding={0, 0, 0, 0},stride={2, 2},lengths={2, 2},ceil_mode=1,lp_order=2](main:@39,main:@40) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}
+main:@42 = hip::hip_copy_literal[id=main:@literal:15] -> half_type, {16, 16, 3, 3}, {144, 9, 3, 1}
+main:@43 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}
+main:@44 = load[offset=87091200,end=88128000](main:@1) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}
+main:@45 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=81](main:@41,main:@42,main:@43,main:@44) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}
+main:@46 = hip::hip_copy_literal[id=main:@literal:13] -> half_type, {16, 16, 1, 1}, {16, 1, 1, 1}
+main:@47 = hip::hip_copy_literal[id=main:@literal:14] -> half_type, {16}, {1}
+main:@48 = load[offset=88128000,end=89164800](main:@1) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}
+main:@49 = broadcast[axis=1,out_lens={1, 16, 240, 135}](main:@47) -> half_type, {1, 16, 240, 135}, {0, 1, 0, 0}
+main:@50 = gpu::code_object[code_object=13616,symbol_name=kernel,global=130048,local=1024,](main:@45,main:@49,main:@48) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}
+main:@51 = load[offset=91238400,end=92275200](main:@1) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}
+main:@52 = gpu::leaky_relu[alpha=0.3](main:@50,main:@51) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}
+main:@53 = load[offset=87091200,end=91238400](main:@1) -> half_type, {1, 16, 240, 2, 135, 2}, {2073600, 129600, 540, 270, 2, 1}
+main:@54 = reshape[dims={1, 16, 240, 2, 135, 2}](main:@39) -> half_type, {1, 16, 240, 2, 135, 2}, {2073600, 129600, 540, 270, 2, 1}
+main:@55 = reshape[dims={1, 16, 240, 1, 135, 1}](main:@52) -> half_type, {1, 16, 240, 1, 135, 1}, {518400, 32400, 135, 135, 1, 1}
+main:@56 = multibroadcast[out_lens={1, 16, 240, 2, 135, 2}](main:@55) -> half_type, {1, 16, 240, 2, 135, 2}, {518400, 32400, 135, 0, 1, 0}
+main:@57 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@56,main:@54,main:@53) -> half_type, {1, 16, 240, 2, 135, 2}, {2073600, 129600, 540, 270, 2, 1}
+main:@58 = load[offset=82944000,end=87091200](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@59 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}
+main:@60 = reshape[dims={1, 16, 480, 270}](main:@57) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@61 = gpu::convolution[padding={0, 0, 0, 0},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=64](main:@60,main:@46,main:@59,main:@58) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@62 = hip::hip_copy_literal[id=main:@literal:11] -> half_type, {16, 16, 3, 3}, {144, 9, 3, 1}
+main:@63 = hip::hip_copy_literal[id=main:@literal:12] -> half_type, {16}, {1}
+main:@64 = load[offset=91238400,end=95385600](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@65 = broadcast[axis=1,out_lens={1, 16, 480, 270}](main:@63) -> half_type, {1, 16, 480, 270}, {0, 1, 0, 0}
+main:@66 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@61,main:@65,main:@64) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@67 = load[offset=87091200,end=91238400](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@68 = gpu::leaky_relu[alpha=0.3](main:@66,main:@67) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@69 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}
+main:@70 = load[offset=82944000,end=87091200](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@71 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=80](main:@68,main:@62,main:@69,main:@70) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@72 = hip::hip_copy_literal[id=main:@literal:9] -> half_type, {16, 16, 1, 1}, {16, 1, 1, 1}
+main:@73 = hip::hip_copy_literal[id=main:@literal:10] -> half_type, {16}, {1}
+main:@74 = load[offset=87091200,end=91238400](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@75 = broadcast[axis=1,out_lens={1, 16, 480, 270}](main:@73) -> half_type, {1, 16, 480, 270}, {0, 1, 0, 0}
+main:@76 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@71,main:@75,main:@74) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@77 = load[offset=99532800,end=103680000](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@78 = gpu::leaky_relu[alpha=0.3](main:@76,main:@77) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}
+main:@79 = load[offset=82944000,end=99532800](main:@1) -> half_type, {1, 16, 480, 2, 270, 2}, {8294400, 518400, 1080, 540, 2, 1}
+main:@80 = reshape[dims={1, 16, 480, 2, 270, 2}](main:@27) -> half_type, {1, 16, 480, 2, 270, 2}, {8294400, 518400, 1080, 540, 2, 1}
+main:@81 = reshape[dims={1, 16, 480, 1, 270, 1}](main:@78) -> half_type, {1, 16, 480, 1, 270, 1}, {2073600, 129600, 270, 270, 1, 1}
+main:@82 = multibroadcast[out_lens={1, 16, 480, 2, 270, 2}](main:@81) -> half_type, {1, 16, 480, 2, 270, 2}, {2073600, 129600, 270, 0, 1, 0}
+main:@83 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@82,main:@80,main:@79) -> half_type, {1, 16, 480, 2, 270, 2}, {8294400, 518400, 1080, 540, 2, 1}
+main:@84 = load[offset=66355200,end=82944000](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@85 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}
+main:@86 = reshape[dims={1, 16, 960, 540}](main:@83) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@87 = gpu::convolution[padding={0, 0, 0, 0},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=64](main:@86,main:@72,main:@85,main:@84) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@88 = hip::hip_copy_literal[id=main:@literal:7] -> half_type, {16, 16, 3, 3}, {144, 9, 3, 1}
+main:@89 = hip::hip_copy_literal[id=main:@literal:8] -> half_type, {16}, {1}
+main:@90 = load[offset=99532800,end=116121600](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@91 = broadcast[axis=1,out_lens={1, 16, 960, 540}](main:@89) -> half_type, {1, 16, 960, 540}, {0, 1, 0, 0}
+main:@92 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@87,main:@91,main:@90) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@93 = load[offset=82944000,end=99532800](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@94 = gpu::leaky_relu[alpha=0.3](main:@92,main:@93) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@95 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}
+main:@96 = load[offset=66355200,end=82944000](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@97 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=80](main:@94,main:@88,main:@95,main:@96) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@98 = hip::hip_copy_literal[id=main:@literal:0] -> half_type, {4}, {1}
+main:@99 = hip::hip_copy_literal[id=main:@literal:1] -> half_type, {4, 16, 3, 3}, {144, 9, 3, 1}
+main:@100 = hip::hip_copy_literal[id=main:@literal:2] -> half_type, {16}, {1}
+main:@101 = hip::hip_copy_literal[id=main:@literal:3] -> half_type, {16, 16, 3, 3}, {144, 9, 3, 1}
+main:@102 = hip::hip_copy_literal[id=main:@literal:4] -> half_type, {16}, {1}
+main:@103 = hip::hip_copy_literal[id=main:@literal:5] -> half_type, {16, 16, 1, 1}, {16, 1, 1, 1}
+main:@104 = hip::hip_copy_literal[id=main:@literal:6] -> half_type, {16}, {1}
+main:@105 = load[offset=82944000,end=99532800](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@106 = broadcast[axis=1,out_lens={1, 16, 960, 540}](main:@104) -> half_type, {1, 16, 960, 540}, {0, 1, 0, 0}
+main:@107 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@97,main:@106,main:@105) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@108 = load[offset=132710400,end=149299200](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@109 = gpu::leaky_relu[alpha=0.3](main:@107,main:@108) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}
+main:@110 = load[offset=66355200,end=132710400](main:@1) -> half_type, {1, 16, 960, 2, 540, 2}, {33177600, 2073600, 2160, 1080, 2, 1}
+main:@111 = reshape[dims={1, 16, 960, 2, 540, 2}](main:@15) -> half_type, {1, 16, 960, 2, 540, 2}, {33177600, 2073600, 2160, 1080, 2, 1}
+main:@112 = reshape[dims={1, 16, 960, 1, 540, 1}](main:@109) -> half_type, {1, 16, 960, 1, 540, 1}, {8294400, 518400, 540, 540, 1, 1}
+main:@113 = multibroadcast[out_lens={1, 16, 960, 2, 540, 2}](main:@112) -> half_type, {1, 16, 960, 2, 540, 2}, {8294400, 518400, 540, 0, 1, 0}
+main:@114 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@113,main:@111,main:@110) -> half_type, {1, 16, 960, 2, 540, 2}, {33177600, 2073600, 2160, 1080, 2, 1}
+main:@115 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}
+main:@116 = load[offset=0,end=66355200](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@117 = reshape[dims={1, 16, 1920, 1080}](main:@114) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@118 = gpu::convolution[padding={0, 0, 0, 0},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=64](main:@117,main:@103,main:@115,main:@116) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@119 = load[offset=132710400,end=199065600](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@120 = broadcast[axis=1,out_lens={1, 16, 1920, 1080}](main:@102) -> half_type, {1, 16, 1920, 1080}, {0, 1, 0, 0}
+main:@121 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@118,main:@120,main:@119) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@122 = load[offset=66355200,end=132710400](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@123 = gpu::leaky_relu[alpha=0.3](main:@121,main:@122) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@124 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}
+main:@125 = load[offset=0,end=66355200](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@126 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=80](main:@123,main:@101,main:@124,main:@125) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@127 = load[offset=99532800,end=165888000](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@128 = broadcast[axis=1,out_lens={1, 16, 1920, 1080}](main:@100) -> half_type, {1, 16, 1920, 1080}, {0, 1, 0, 0}
+main:@129 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@126,main:@128,main:@127) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@130 = load[offset=33177600,end=99532800](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@131 = gpu::leaky_relu[alpha=0.3](main:@129,main:@130) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}
+main:@132 = load[offset=16588800,end=33177600](main:@1) -> half_type, {1, 4, 1920, 1080}, {8294400, 2073600, 1080, 1}
+main:@133 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}
+main:@134 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=11](main:@131,main:@99,main:@133,main:@132) -> half_type, {1, 4, 1920, 1080}, {8294400, 2073600, 1080, 1}
+main:@135 = load[offset=0,end=16588800](main:@1) -> half_type, {1, 4, 1920, 1080}, {8294400, 2073600, 1080, 1}
+main:@136 = broadcast[axis=1,out_lens={1, 4, 1920, 1080}](main:@98) -> half_type, {1, 4, 1920, 1080}, {0, 1, 0, 0}
+main:@137 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@134,main:@136,main:@135) -> half_type, {1, 4, 1920, 1080}, {8294400, 2073600, 1080, 1}
+main:#output_0 = @param:main:#output_0 -> half_type, {1, 1920, 1080, 4}, {8294400, 4320, 4, 1}
+main:@139 = transpose[permutation={0, 2, 3, 1}](main:@137) -> half_type, {1, 1920, 1080, 4}, {8294400, 1080, 1, 2073600}
+main:@140 = gpu::contiguous(main:@139,main:#output_0) -> half_type, {1, 1920, 1080, 4}, {8294400, 4320, 4, 1}
+main:@141 = @return(main:@140)
+
+
+Allocating params ... 
+Running performance report ... 
+main:@0 = check_context::migraphx::version_1::gpu::context -> float_type, {}, {}: 0.00053038ms, 1%
+main:@1 = hip::hip_allocate_memory[shape=float_type, {49766400}, {1},id=main:scratch] -> float_type, {49766400}, {1}: 0.00050918ms, 1%
+main:@2 = load[offset=0,end=33177600](main:@1) -> half_type, {1, 8, 1920, 1080}, {16588800, 2073600, 1080, 1}: 0.0003894ms, 1%
+inputs = @param:inputs -> half_type, {1, 1920, 1080, 8}, {16588800, 8640, 8, 1}: 0.00040282ms, 1%
+main:@4 = transpose[permutation={0, 3, 1, 2}](inputs) -> half_type, {1, 8, 1920, 1080}, {16588800, 1, 8640, 8}: 0.00047776ms, 1%
+main:@5 = gpu::contiguous(main:@4,main:@2) -> half_type, {1, 8, 1920, 1080}, {16588800, 2073600, 1080, 1}: 0.304485ms, 7%
+main:@6 = hip::hip_copy_literal[id=main:@literal:21] -> half_type, {16, 8, 3, 3}, {72, 9, 3, 1}: 0.00049734ms, 1%
+main:@7 = load[offset=33177600,end=99532800](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.0003691ms, 1%
+main:@8 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}: 0.00031948ms, 1%
+main:@9 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=64](main:@5,main:@6,main:@8,main:@7) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.412271ms, 9%
+main:@10 = hip::hip_copy_literal[id=main:@literal:20] -> half_type, {16}, {1}: 0.00045866ms, 1%
+main:@11 = load[offset=99532800,end=165888000](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.0004126ms, 1%
+main:@12 = broadcast[axis=1,out_lens={1, 16, 1920, 1080}](main:@10) -> half_type, {1, 16, 1920, 1080}, {0, 1, 0, 0}: 0.00046806ms, 1%
+main:@13 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@9,main:@12,main:@11) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.158924ms, 4%
+main:@14 = load[offset=0,end=66355200](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.00038248ms, 1%
+main:@15 = gpu::leaky_relu[alpha=0.3](main:@13,main:@14) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.146721ms, 4%
+main:@16 = load[offset=82944000,end=99532800](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.00037032ms, 1%
+main:@17 = gpu::pooling[mode=max,padding={0, 0, 0, 0},stride={2, 2},lengths={2, 2},ceil_mode=1,lp_order=2](main:@15,main:@16) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.135132ms, 3%
+main:@18 = hip::hip_copy_literal[id=main:@literal:19] -> half_type, {16, 16, 3, 3}, {144, 9, 3, 1}: 0.0004452ms, 1%
+main:@19 = load[offset=66355200,end=82944000](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.0003672ms, 1%
+main:@20 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}: 0.00032364ms, 1%
+main:@21 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=80](main:@17,main:@18,main:@20,main:@19) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.197613ms, 5%
+main:@22 = hip::hip_copy_literal[id=main:@literal:18] -> half_type, {16}, {1}: 0.00043592ms, 1%
+main:@23 = load[offset=82944000,end=99532800](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.00039238ms, 1%
+main:@24 = broadcast[axis=1,out_lens={1, 16, 960, 540}](main:@22) -> half_type, {1, 16, 960, 540}, {0, 1, 0, 0}: 0.00047432ms, 1%
+main:@25 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@21,main:@24,main:@23) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.0505227ms, 2%
+main:@26 = load[offset=66355200,end=82944000](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.00037048ms, 1%
+main:@27 = gpu::leaky_relu[alpha=0.3](main:@25,main:@26) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.0515884ms, 2%
+main:@28 = load[offset=87091200,end=91238400](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.00039646ms, 1%
+main:@29 = gpu::pooling[mode=max,padding={0, 0, 0, 0},stride={2, 2},lengths={2, 2},ceil_mode=1,lp_order=2](main:@27,main:@28) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.0528043ms, 2%
+main:@30 = hip::hip_copy_literal[id=main:@literal:17] -> half_type, {16, 16, 3, 3}, {144, 9, 3, 1}: 0.0004634ms, 1%
+main:@31 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}: 0.00039594ms, 1%
+main:@32 = load[offset=82944000,end=87091200](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.0003413ms, 1%
+main:@33 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=80](main:@29,main:@30,main:@31,main:@32) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.0883396ms, 2%
+main:@34 = hip::hip_copy_literal[id=main:@literal:16] -> half_type, {16}, {1}: 0.00044428ms, 1%
+main:@35 = load[offset=87091200,end=91238400](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.00040152ms, 1%
+main:@36 = broadcast[axis=1,out_lens={1, 16, 480, 270}](main:@34) -> half_type, {1, 16, 480, 270}, {0, 1, 0, 0}: 0.00046908ms, 1%
+main:@37 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@33,main:@36,main:@35) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.0252661ms, 1%
+main:@38 = load[offset=82944000,end=87091200](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.0003627ms, 1%
+main:@39 = gpu::leaky_relu[alpha=0.3](main:@37,main:@38) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.0277966ms, 1%
+main:@40 = load[offset=88128000,end=89164800](main:@1) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}: 0.00036302ms, 1%
+main:@41 = gpu::pooling[mode=max,padding={0, 0, 0, 0},stride={2, 2},lengths={2, 2},ceil_mode=1,lp_order=2](main:@39,main:@40) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}: 0.0319417ms, 1%
+main:@42 = hip::hip_copy_literal[id=main:@literal:15] -> half_type, {16, 16, 3, 3}, {144, 9, 3, 1}: 0.00042808ms, 1%
+main:@43 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}: 0.00039514ms, 1%
+main:@44 = load[offset=87091200,end=88128000](main:@1) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}: 0.0003229ms, 1%
+main:@45 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=81](main:@41,main:@42,main:@43,main:@44) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}: 0.0446445ms, 1%
+main:@46 = hip::hip_copy_literal[id=main:@literal:13] -> half_type, {16, 16, 1, 1}, {16, 1, 1, 1}: 0.00045904ms, 1%
+main:@47 = hip::hip_copy_literal[id=main:@literal:14] -> half_type, {16}, {1}: 0.00034492ms, 1%
+main:@48 = load[offset=88128000,end=89164800](main:@1) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}: 0.00038648ms, 1%
+main:@49 = broadcast[axis=1,out_lens={1, 16, 240, 135}](main:@47) -> half_type, {1, 16, 240, 135}, {0, 1, 0, 0}: 0.00046954ms, 1%
+main:@50 = gpu::code_object[code_object=13616,symbol_name=kernel,global=130048,local=1024,](main:@45,main:@49,main:@48) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}: 0.019004ms, 1%
+main:@51 = load[offset=91238400,end=92275200](main:@1) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}: 0.00037274ms, 1%
+main:@52 = gpu::leaky_relu[alpha=0.3](main:@50,main:@51) -> half_type, {1, 16, 240, 135}, {518400, 32400, 135, 1}: 0.0217368ms, 1%
+main:@53 = load[offset=87091200,end=91238400](main:@1) -> half_type, {1, 16, 240, 2, 135, 2}, {2073600, 129600, 540, 270, 2, 1}: 0.0003602ms, 1%
+main:@54 = reshape[dims={1, 16, 240, 2, 135, 2}](main:@39) -> half_type, {1, 16, 240, 2, 135, 2}, {2073600, 129600, 540, 270, 2, 1}: 0.0005039ms, 1%
+main:@55 = reshape[dims={1, 16, 240, 1, 135, 1}](main:@52) -> half_type, {1, 16, 240, 1, 135, 1}, {518400, 32400, 135, 135, 1, 1}: 0.00034952ms, 1%
+main:@56 = multibroadcast[out_lens={1, 16, 240, 2, 135, 2}](main:@55) -> half_type, {1, 16, 240, 2, 135, 2}, {518400, 32400, 135, 0, 1, 0}: 0.00043274ms, 1%
+main:@57 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@56,main:@54,main:@53) -> half_type, {1, 16, 240, 2, 135, 2}, {2073600, 129600, 540, 270, 2, 1}: 0.0267638ms, 1%
+main:@58 = load[offset=82944000,end=87091200](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.00038292ms, 1%
+main:@59 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}: 0.0003286ms, 1%
+main:@60 = reshape[dims={1, 16, 480, 270}](main:@57) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.00040102ms, 1%
+main:@61 = gpu::convolution[padding={0, 0, 0, 0},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=64](main:@60,main:@46,main:@59,main:@58) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.0372666ms, 1%
+main:@62 = hip::hip_copy_literal[id=main:@literal:11] -> half_type, {16, 16, 3, 3}, {144, 9, 3, 1}: 0.00043942ms, 1%
+main:@63 = hip::hip_copy_literal[id=main:@literal:12] -> half_type, {16}, {1}: 0.00033658ms, 1%
+main:@64 = load[offset=91238400,end=95385600](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.000401ms, 1%
+main:@65 = broadcast[axis=1,out_lens={1, 16, 480, 270}](main:@63) -> half_type, {1, 16, 480, 270}, {0, 1, 0, 0}: 0.00043732ms, 1%
+main:@66 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@61,main:@65,main:@64) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.025394ms, 1%
+main:@67 = load[offset=87091200,end=91238400](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.00037342ms, 1%
+main:@68 = gpu::leaky_relu[alpha=0.3](main:@66,main:@67) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.0279387ms, 1%
+main:@69 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}: 0.0003936ms, 1%
+main:@70 = load[offset=82944000,end=87091200](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.00034182ms, 1%
+main:@71 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=80](main:@68,main:@62,main:@69,main:@70) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.0862966ms, 2%
+main:@72 = hip::hip_copy_literal[id=main:@literal:9] -> half_type, {16, 16, 1, 1}, {16, 1, 1, 1}: 0.00048202ms, 1%
+main:@73 = hip::hip_copy_literal[id=main:@literal:10] -> half_type, {16}, {1}: 0.00033924ms, 1%
+main:@74 = load[offset=87091200,end=91238400](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.00040512ms, 1%
+main:@75 = broadcast[axis=1,out_lens={1, 16, 480, 270}](main:@73) -> half_type, {1, 16, 480, 270}, {0, 1, 0, 0}: 0.00044162ms, 1%
+main:@76 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@71,main:@75,main:@74) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.0255322ms, 1%
+main:@77 = load[offset=99532800,end=103680000](main:@1) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.00036086ms, 1%
+main:@78 = gpu::leaky_relu[alpha=0.3](main:@76,main:@77) -> half_type, {1, 16, 480, 270}, {2073600, 129600, 270, 1}: 0.0276905ms, 1%
+main:@79 = load[offset=82944000,end=99532800](main:@1) -> half_type, {1, 16, 480, 2, 270, 2}, {8294400, 518400, 1080, 540, 2, 1}: 0.00039262ms, 1%
+main:@80 = reshape[dims={1, 16, 480, 2, 270, 2}](main:@27) -> half_type, {1, 16, 480, 2, 270, 2}, {8294400, 518400, 1080, 540, 2, 1}: 0.00045672ms, 1%
+main:@81 = reshape[dims={1, 16, 480, 1, 270, 1}](main:@78) -> half_type, {1, 16, 480, 1, 270, 1}, {2073600, 129600, 270, 270, 1, 1}: 0.00035674ms, 1%
+main:@82 = multibroadcast[out_lens={1, 16, 480, 2, 270, 2}](main:@81) -> half_type, {1, 16, 480, 2, 270, 2}, {2073600, 129600, 270, 0, 1, 0}: 0.00039644ms, 1%
+main:@83 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@82,main:@80,main:@79) -> half_type, {1, 16, 480, 2, 270, 2}, {8294400, 518400, 1080, 540, 2, 1}: 0.0579852ms, 2%
+main:@84 = load[offset=66355200,end=82944000](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.00037748ms, 1%
+main:@85 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}: 0.00033136ms, 1%
+main:@86 = reshape[dims={1, 16, 960, 540}](main:@83) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.00039922ms, 1%
+main:@87 = gpu::convolution[padding={0, 0, 0, 0},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=64](main:@86,main:@72,main:@85,main:@84) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.0704432ms, 2%
+main:@88 = hip::hip_copy_literal[id=main:@literal:7] -> half_type, {16, 16, 3, 3}, {144, 9, 3, 1}: 0.00046992ms, 1%
+main:@89 = hip::hip_copy_literal[id=main:@literal:8] -> half_type, {16}, {1}: 0.00035872ms, 1%
+main:@90 = load[offset=99532800,end=116121600](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.00041124ms, 1%
+main:@91 = broadcast[axis=1,out_lens={1, 16, 960, 540}](main:@89) -> half_type, {1, 16, 960, 540}, {0, 1, 0, 0}: 0.00043624ms, 1%
+main:@92 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@87,main:@91,main:@90) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.0507328ms, 2%
+main:@93 = load[offset=82944000,end=99532800](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.00037036ms, 1%
+main:@94 = gpu::leaky_relu[alpha=0.3](main:@92,main:@93) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.0513968ms, 2%
+main:@95 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}: 0.00038872ms, 1%
+main:@96 = load[offset=66355200,end=82944000](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.00032948ms, 1%
+main:@97 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=80](main:@94,main:@88,main:@95,main:@96) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.196311ms, 5%
+main:@98 = hip::hip_copy_literal[id=main:@literal:0] -> half_type, {4}, {1}: 0.00046668ms, 1%
+main:@99 = hip::hip_copy_literal[id=main:@literal:1] -> half_type, {4, 16, 3, 3}, {144, 9, 3, 1}: 0.00035606ms, 1%
+main:@100 = hip::hip_copy_literal[id=main:@literal:2] -> half_type, {16}, {1}: 0.00034792ms, 1%
+main:@101 = hip::hip_copy_literal[id=main:@literal:3] -> half_type, {16, 16, 3, 3}, {144, 9, 3, 1}: 0.00034422ms, 1%
+main:@102 = hip::hip_copy_literal[id=main:@literal:4] -> half_type, {16}, {1}: 0.00034742ms, 1%
+main:@103 = hip::hip_copy_literal[id=main:@literal:5] -> half_type, {16, 16, 1, 1}, {16, 1, 1, 1}: 0.00041372ms, 1%
+main:@104 = hip::hip_copy_literal[id=main:@literal:6] -> half_type, {16}, {1}: 0.00032586ms, 1%
+main:@105 = load[offset=82944000,end=99532800](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.00041ms, 1%
+main:@106 = broadcast[axis=1,out_lens={1, 16, 960, 540}](main:@104) -> half_type, {1, 16, 960, 540}, {0, 1, 0, 0}: 0.00056522ms, 1%
+main:@107 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@97,main:@106,main:@105) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.0508732ms, 2%
+main:@108 = load[offset=132710400,end=149299200](main:@1) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.00036646ms, 1%
+main:@109 = gpu::leaky_relu[alpha=0.3](main:@107,main:@108) -> half_type, {1, 16, 960, 540}, {8294400, 518400, 540, 1}: 0.0516102ms, 2%
+main:@110 = load[offset=66355200,end=132710400](main:@1) -> half_type, {1, 16, 960, 2, 540, 2}, {33177600, 2073600, 2160, 1080, 2, 1}: 0.00040594ms, 1%
+main:@111 = reshape[dims={1, 16, 960, 2, 540, 2}](main:@15) -> half_type, {1, 16, 960, 2, 540, 2}, {33177600, 2073600, 2160, 1080, 2, 1}: 0.00044902ms, 1%
+main:@112 = reshape[dims={1, 16, 960, 1, 540, 1}](main:@109) -> half_type, {1, 16, 960, 1, 540, 1}, {8294400, 518400, 540, 540, 1, 1}: 0.00035574ms, 1%
+main:@113 = multibroadcast[out_lens={1, 16, 960, 2, 540, 2}](main:@112) -> half_type, {1, 16, 960, 2, 540, 2}, {8294400, 518400, 540, 0, 1, 0}: 0.00038134ms, 1%
+main:@114 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@113,main:@111,main:@110) -> half_type, {1, 16, 960, 2, 540, 2}, {33177600, 2073600, 2160, 1080, 2, 1}: 0.188323ms, 4%
+main:@115 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}: 0.0003891ms, 1%
+main:@116 = load[offset=0,end=66355200](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.0003104ms, 1%
+main:@117 = reshape[dims={1, 16, 1920, 1080}](main:@114) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.0004039ms, 1%
+main:@118 = gpu::convolution[padding={0, 0, 0, 0},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=64](main:@117,main:@103,main:@115,main:@116) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.197951ms, 5%
+main:@119 = load[offset=132710400,end=199065600](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.00043108ms, 1%
+main:@120 = broadcast[axis=1,out_lens={1, 16, 1920, 1080}](main:@102) -> half_type, {1, 16, 1920, 1080}, {0, 1, 0, 0}: 0.00043884ms, 1%
+main:@121 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@118,main:@120,main:@119) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.159346ms, 4%
+main:@122 = load[offset=66355200,end=132710400](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.00036306ms, 1%
+main:@123 = gpu::leaky_relu[alpha=0.3](main:@121,main:@122) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.146795ms, 4%
+main:@124 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}: 0.00040532ms, 1%
+main:@125 = load[offset=0,end=66355200](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.00032896ms, 1%
+main:@126 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=80](main:@123,main:@101,main:@124,main:@125) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.679106ms, 15%
+main:@127 = load[offset=99532800,end=165888000](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.00040292ms, 1%
+main:@128 = broadcast[axis=1,out_lens={1, 16, 1920, 1080}](main:@100) -> half_type, {1, 16, 1920, 1080}, {0, 1, 0, 0}: 0.00044366ms, 1%
+main:@129 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@126,main:@128,main:@127) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.157747ms, 4%
+main:@130 = load[offset=33177600,end=99532800](main:@1) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.00038034ms, 1%
+main:@131 = gpu::leaky_relu[alpha=0.3](main:@129,main:@130) -> half_type, {1, 16, 1920, 1080}, {33177600, 2073600, 1080, 1}: 0.146785ms, 4%
+main:@132 = load[offset=16588800,end=33177600](main:@1) -> half_type, {1, 4, 1920, 1080}, {8294400, 2073600, 1080, 1}: 0.00039874ms, 1%
+main:@133 = load[offset=0,end=0](main:@1) -> int8_type, {0}, {1}: 0.00032408ms, 1%
+main:@134 = gpu::convolution[padding={1, 1, 1, 1},stride={1, 1},dilation={1, 1},group=1,padding_mode=1,solution_id=11](main:@131,main:@99,main:@133,main:@132) -> half_type, {1, 4, 1920, 1080}, {8294400, 2073600, 1080, 1}: 0.350354ms, 8%
+main:@135 = load[offset=0,end=16588800](main:@1) -> half_type, {1, 4, 1920, 1080}, {8294400, 2073600, 1080, 1}: 0.00040246ms, 1%
+main:@136 = broadcast[axis=1,out_lens={1, 4, 1920, 1080}](main:@98) -> half_type, {1, 4, 1920, 1080}, {0, 1, 0, 0}: 0.0004426ms, 1%
+main:@137 = gpu::code_object[code_object=13616,symbol_name=kernel,global=307200,local=1024,](main:@134,main:@136,main:@135) -> half_type, {1, 4, 1920, 1080}, {8294400, 2073600, 1080, 1}: 0.0560047ms, 2%
+main:#output_0 = @param:main:#output_0 -> half_type, {1, 1920, 1080, 4}, {8294400, 4320, 4, 1}: 0.00055114ms, 1%
+main:@139 = transpose[permutation={0, 2, 3, 1}](main:@137) -> half_type, {1, 1920, 1080, 4}, {8294400, 1080, 1, 2073600}: 0.00049826ms, 1%
+main:@140 = gpu::contiguous(main:@139,main:#output_0) -> half_type, {1, 1920, 1080, 4}, {8294400, 4320, 4, 1}: 0.0887133ms, 2%
+main:@141 = @return(main:@140)
+Summary:
+gpu::convolution: 2.3606ms, 50%
+gpu::code_object: 1.05242ms, 23%
+gpu::leaky_relu: 0.700058ms, 15%
+gpu::contiguous: 0.393198ms, 9%
+gpu::pooling: 0.219878ms, 5%
+load: 0.0187029ms, 1%
+hip::hip_copy_literal: 0.00900462ms, 1%
+broadcast: 0.0050865ms, 1%
+reshape: 0.00367578ms, 1%
+multibroadcast: 0.00121052ms, 1%
+transpose: 0.00097602ms, 1%
+@param: 0.00095396ms, 1%
+check_context::migraphx::version_1::gpu::context: 0.00053038ms, 1%
+hip::hip_allocate_memory: 0.00050918ms, 1%
+
+Batch size: 1
+Rate: 244.796/sec
+Total time: 4.08504ms
+Total instructions time: 4.7668ms
+Overhead time: 0.02851ms, -0.681758ms
+Overhead: 1%, -17%

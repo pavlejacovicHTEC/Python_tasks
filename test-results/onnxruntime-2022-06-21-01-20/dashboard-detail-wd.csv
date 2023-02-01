@@ -1,0 +1,40 @@
+engine,version,providers,device,precision,optimizer,io_binding,model_name,inputs,threads,batch_size,sequence_length,custom_layer_num,datetime,test_times,QPS,average_latency_ms,latency_variance,latency_90_percentile,latency_95_percentile,latency_99_percentile
+onnxruntime,1.12.0,migraphx,cuda,fp16,by_script,True,bert-base-cased,1,16,1,32,,2022-06-16 11:38:58.781881,100,601.95,1.66,0.00,1.67,1.67,1.80
+onnxruntime,1.12.0,migraphx,cuda,fp16,by_script,True,bert-base-cased,1,16,1,384,,2022-06-16 11:39:23.400423,100,232.67,4.30,0.00,4.34,4.35,4.40
+onnxruntime,1.12.0,migraphx,cuda,fp16,by_script,True,bert-base-cased,1,16,32,32,,2022-06-16 11:39:49.970355,100,2588.55,12.36,0.00,12.40,12.41,12.42
+onnxruntime,1.12.0,migraphx,cuda,fp16,by_script,True,bert-base-cased,1,16,32,384,,2022-06-16 11:44:23.182373,100,488.57,65.50,0.00,65.62,65.65,65.69
+engine,version,providers,device,precision,optimizer,io_binding,model_name,inputs,threads,batch_size,sequence_length,custom_layer_num,datetime,test_times,QPS,average_latency_ms,latency_variance,latency_90_percentile,latency_95_percentile,latency_99_percentile
+onnxruntime,1.12.0,migraphx,cuda,fp16,by_script,True,distilgpt2,1,16,1,32,,2022-06-16 12:42:48.236672,100,708.61,1.41,0.00,1.43,1.43,1.50
+onnxruntime,1.12.0,migraphx,cuda,fp16,by_script,True,distilgpt2,1,16,1,384,,2022-06-16 12:43:10.535135,100,291.74,3.43,0.00,3.50,3.53,3.56
+onnxruntime,1.12.0,migraphx,cuda,fp16,by_script,True,distilgpt2,1,16,8,32,,2022-06-16 12:43:32.239701,100,2689.69,2.97,0.00,3.00,3.00,3.05
+onnxruntime,1.12.0,migraphx,cuda,fp16,by_script,True,distilgpt2,1,16,8,384,,2022-06-16 12:44:06.422564,100,588.47,13.59,0.00,13.65,13.67,13.71
+engine,version,providers,device,precision,optimizer,io_binding,model_name,inputs,threads,batch_size,sequence_length,custom_layer_num,datetime,test_times,QPS,average_latency_ms,latency_variance,latency_90_percentile,latency_95_percentile,latency_99_percentile
+migraphx,dev,NA,cuda,fp16,by_script,,bert-base-cased,1,16,1,32,,2022-06-16 12:45:46.682099,100,12.01,83.28,658.91,1.70,1.71,83.36
+migraphx,dev,NA,cuda,fp16,by_script,,bert-base-cased,1,16,1,384,,2022-06-16 12:46:10.821882,100,222.07,4.50,0.00,4.58,4.62,4.90
+migraphx,dev,NA,cuda,fp16,by_script,,bert-base-cased,1,16,32,32,,2022-06-16 12:50:22.760930,100,2479.45,12.91,0.00,12.94,12.96,13.01
+migraphx,dev,NA,cuda,fp16,by_script,,bert-base-cased,1,16,32,384,,2022-06-16 12:58:34.185882,100,451.19,70.92,0.00,71.04,71.07,71.10
+engine,version,providers,device,precision,optimizer,io_binding,model_name,inputs,threads,batch_size,sequence_length,custom_layer_num,datetime,test_times,QPS,average_latency_ms,latency_variance,latency_90_percentile,latency_95_percentile,latency_99_percentile
+migraphx,dev,NA,cuda,fp16,by_script,,bert-large-uncased,1,16,1,32,,2022-06-16 12:59:48.352501,100,13.23,75.58,503.37,4.33,4.38,75.71
+migraphx,dev,NA,cuda,fp16,by_script,,bert-large-uncased,1,16,1,384,,2022-06-16 13:01:02.316714,100,104.41,9.58,0.00,9.64,9.79,9.96
+migraphx,dev,NA,cuda,fp16,by_script,,bert-large-uncased,1,16,32,32,,2022-06-16 13:16:08.315590,100,876.18,36.52,0.00,36.64,36.67,36.69
+migraphx,dev,NA,cuda,fp16,by_script,,bert-large-uncased,1,16,32,384,,2022-06-16 13:45:52.000150,100,164.35,194.71,0.00,195.78,195.98,196.02
+engine,version,providers,device,precision,optimizer,io_binding,model_name,inputs,threads,batch_size,sequence_length,custom_layer_num,datetime,test_times,QPS,average_latency_ms,latency_variance,latency_90_percentile,latency_95_percentile,latency_99_percentile
+migraphx,dev,NA,cuda,fp16,by_script,,distilgpt2,1,16,1,32,,2022-06-16 13:46:31.309886,100,11.81,84.66,653.75,3.44,3.46,85.08
+migraphx,dev,NA,cuda,fp16,by_script,,distilgpt2,1,16,1,384,,2022-06-16 13:46:53.130221,100,33.91,29.49,0.00,29.55,29.62,29.91
+migraphx,dev,NA,cuda,fp16,by_script,,distilgpt2,1,16,8,32,,2022-06-16 13:47:26.471454,100,392.27,20.39,0.00,20.42,20.48,20.70
+migraphx,dev,NA,cuda,fp16,by_script,,distilgpt2,1,16,8,384,,2022-06-16 13:48:46.654466,100,36.78,217.52,0.00,218.25,218.61,219.60
+engine,version,providers,device,precision,optimizer,io_binding,model_name,inputs,threads,batch_size,sequence_length,custom_layer_num,datetime,test_times,QPS,average_latency_ms,latency_variance,latency_90_percentile,latency_95_percentile,latency_99_percentile
+onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,bert-base-cased,1,16,1,32,,2022-06-16 13:49:33.872238,100,20.78,48.13,0.00,48.82,48.88,49.79
+onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,bert-base-cased,1,16,1,384,,2022-06-16 13:49:46.889164,100,19.71,50.74,0.00,50.96,50.97,51.00
+onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,bert-base-cased,1,16,32,32,,2022-06-16 13:49:52.016971,100,607.20,52.70,0.00,53.14,53.19,53.35
+onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,bert-base-cased,1,16,32,384,,2022-06-16 13:49:57.344180,100,275.14,116.30,0.00,117.05,117.16,118.27
+engine,version,providers,device,precision,optimizer,io_binding,model_name,inputs,threads,batch_size,sequence_length,custom_layer_num,datetime,test_times,QPS,average_latency_ms,latency_variance,latency_90_percentile,latency_95_percentile,latency_99_percentile
+onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,bert-large-uncased,1,16,1,32,,2022-06-16 13:52:29.498168,100,14.97,66.79,0.00,67.05,67.09,67.79
+onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,bert-large-uncased,1,16,1,384,,2022-06-16 13:52:43.435757,100,14.07,71.05,0.00,71.32,71.39,71.53
+onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,bert-large-uncased,1,16,32,32,,2022-06-16 13:52:50.616276,100,415.77,76.96,0.00,77.15,77.18,77.29
+onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,bert-large-uncased,1,16,32,384,,2022-06-16 13:52:58.395546,100,131.43,243.47,0.00,244.10,244.16,244.97
+engine,version,providers,device,precision,optimizer,io_binding,model_name,inputs,threads,batch_size,sequence_length,custom_layer_num,datetime,test_times,QPS,average_latency_ms,latency_variance,latency_90_percentile,latency_95_percentile,latency_99_percentile
+onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,distilgpt2,1,16,1,32,,2022-06-16 13:53:39.716881,100,502.30,1.99,0.00,2.00,2.01,2.03
+onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,distilgpt2,1,16,1,384,,2022-06-16 13:53:48.231997,100,257.14,3.89,0.00,3.95,3.96,3.99
+onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,distilgpt2,1,16,8,32,,2022-06-16 13:53:48.651112,100,2832.18,2.82,0.00,2.86,2.87,2.88
+onnxruntime,1.12.0,rocm,cuda,fp16,by_script,True,distilgpt2,1,16,8,384,,2022-06-16 13:53:48.953476,100,616.80,12.97,0.00,13.07,13.11,13.16

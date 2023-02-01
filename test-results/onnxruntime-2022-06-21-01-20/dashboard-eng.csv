@@ -1,0 +1,6 @@
+model_name,inputs,custom_layer_num,engine,version,providers,device,precision,optimizer,io_binding,threads,b1_s32,b1_s384,b32_s32,b32_s384
+bert-base-cased,1,,migraphx,dev,NA,cuda,fp16,by_script,,16,94.88,4.45,12.93,70.47
+model_name,inputs,custom_layer_num,engine,version,providers,device,precision,optimizer,io_binding,threads,b1_s32,b1_s384,b16_s32,b16_s384
+bert-large-uncased,1,,migraphx,dev,NA,cuda,fp16,by_script,,16,86.82,9.37,20.64,98.83
+model_name,inputs,custom_layer_num,engine,version,providers,device,precision,optimizer,io_binding,threads,b1_s32,b1_s384,b8_s32,b8_s384
+distilgpt2,1,,migraphx,dev,NA,cuda,fp16,by_script,,16,96.84,29.39,20.35,215.93

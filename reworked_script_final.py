@@ -17,7 +17,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-s', '--start_date', type=str, help="Start date for history charts")
 parser.add_argument('-e', '--end_date', type=str, help="End date to history charts")
 parser.add_argument('-n', '--nightly', action='store_true', help="Add last 10 results chart to nightly report")
-parser.add_argument('-r', '--report', type=str, help="Path to test reports")
+parser.add_argument('-r', '--report', type=str, required=True, help="Path to test reports")
 parser.add_argument('-t', '--test', type=str, required=True, help="Path to test results")
 args = parser.parse_args()
 date_time_format = '%Y-%m-%d'
@@ -37,9 +37,6 @@ if args.start_date and args.end_date:
 #this checks if you provided combination of dates and nightly argument
 if args.nightly and args.start_date:
     sys.exit("You can not combine dats and night arguments")
-#this checks if reports path is provided when nightly argument is provided, that is mandatory
-if (args.nightly and not args.report) or (not args.nightly and args.report):
-    sys.exit("You must specify argument <excel path> and argument <night> together")
 
 
 #this function return commit_id if there is one
@@ -64,7 +61,7 @@ def get_date_time_commit_id(folder):
 
 
 def get_last_file_in_report():
-    new_path = sorted(pathlib.Path(args.report).glob('*xlsx'), key=os.path.getmtime)[-1]
+    new_path = sorted(pathlib.Path(args.report).glob('results-*.xlsx'), key=os.path.getmtime)[-1]
     return str(new_path)
 
 
@@ -84,10 +81,26 @@ def purge_model_sheets(wb):
 
     wb.save(get_last_file_in_report())
 
+#returns folder list without same commit id appearing twice
+def get_folders_without_same_commit_id(unfiltered_datetime_list):
+    target_datetime_list = []
+    for el in unfiltered_datetime_list:
+        full_folder_path = args.test + os.sep + "perf-" + el
+        commit_id_1 = get_commit(full_folder_path)
+        if len(target_datetime_list) == 0:
+            target_datetime_list.append(full_folder_path)
+        for i in range(len(target_datetime_list)):
+            commit_id_2 = get_commit(target_datetime_list[i])
+            if commit_id_1 != commit_id_2 and i == len(target_datetime_list)-1:
+                target_datetime_list.append(full_folder_path)
+
+    return target_datetime_list
+
 
 #this function returns folders that are modifed between two dates
 def get_folders_between_dates():
     targeted_folders = []
+    target_dates_string = []
 
     for member in os.listdir(args.test):
         element = os.path.join(args.test, member)
@@ -97,29 +110,38 @@ def get_folders_between_dates():
             date_string = sub_elements[1] + "-" + \
                           sub_elements[2] + "-" + \
                           sub_elements[3]
+            date_time_string = sub_elements[1] + "-" + \
+                               sub_elements[2] + "-" + \
+                               sub_elements[3] + "-" + \
+                               sub_elements[4] + "-" + \
+                               sub_elements[5]
             target_date = datetime.datetime.strptime(date_string, date_time_format)
             start_date = datetime.datetime.strptime(args.start_date, date_time_format)
             end_date = datetime.datetime.strptime(args.end_date, date_time_format)
             if start_date <= target_date <= end_date and os.path.isfile(element + os.sep + "results.csv"):
-                targeted_folders.append(element)
+                target_dates_string.append(date_time_string)
 
-    return targeted_folders
+    target_dates_string.sort()
+
+    return get_folders_without_same_commit_id(target_dates_string)
 
 
 #returns last x modified folders
 def get_last_x_folders(x):
-    last_x_folders = []
+    datetime_part_of_last_x_folders = []
     counter = 0
     temp = 1
 
     while temp <= x:
         counter += 1
         path = str(get_last_nth(counter, args.test))
+        splitted_datetime = path.split("-")
+        datetime = splitted_datetime[-5] + "-" + splitted_datetime[-4] + "-" + splitted_datetime[-3] + "-" + splitted_datetime[-2] + "-" + splitted_datetime[-1]
         if os.path.isfile(path+os.path.sep+"results.csv"):
-            last_x_folders.append(path)
+            datetime_part_of_last_x_folders.append(datetime)
             temp += 1
 
-    return last_x_folders
+    return get_folders_without_same_commit_id(datetime_part_of_last_x_folders)
 
 
 #this function returns all the model names from results.csv file in specified folders
@@ -176,9 +198,10 @@ def parametrize_chart(sheet):
     chart.set_categories(cats)
     pt = DataPoint(idx=0)
     s1 = chart.series[0]
-    pt.graphicalProperties.solidFill = "ff8400"
+    if args.nightly:
+        pt.graphicalProperties.solidFill = "ff8400"
     s1.dPt.append(pt)
-    sheet.add_chart(chart, "F2")
+    sheet.add_chart(chart, "D2")
 
 
 #adds hyperlinks to each model so it points to right model sheet
@@ -217,6 +240,9 @@ def create_excel_graphs_between_wanted_dates(folders):
     del wb['Sheet']
     max_model_names_list = get_all_model_names(get_folders_between_dates())
 
+    if len(get_folders_between_dates()) == 0:
+        sys.exit("There are no results between start and end date you entered")
+
     #creates sheets for all the existing models
     for model_name in max_model_names_list:
         model_sheet = wb.create_sheet(model_name)
@@ -239,13 +265,16 @@ def create_excel_graphs_between_wanted_dates(folders):
     for sheet in wb:
         parametrize_chart(sheet)
 
-    wb.save('test_results_with_models_separated.xlsx')
+    wb.save(args.report + os.sep + 'history.xlsx')
 
 
 #this function creates excel graphs for last x result
 def create_excel_graphs_for_last_x_results(x):
     wb = load_workbook(get_last_file_in_report())
     last_ten_folders = get_last_x_folders(10)
+
+    if len(last_ten_folders) == 0:
+        sys.exit("There aren't more than 0 result files")
 
     purge_model_sheets(wb)
 
